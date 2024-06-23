@@ -1,0 +1,25 @@
+pipeline {
+    agent any 
+    parameters {
+        string(name: 'FOOD', description: 'Type the Food you want me to cook. Eg Rice')
+        choice(name: 'DONESTATE', choices: ['Well-Done', 'Half-Done'], description: 'Describe the Done state of Food')
+    }
+
+    stages {
+        stage('PREPARE INGREDIENTS') {
+            steps {
+                echo "Hello there, I am preparing your ingredients, I will be cooking ${params.FOOD}"
+            }            
+        }
+        stage('COOK FOOD') {
+            steps {
+                echo "Hello there, I am cooking YOUR FOOD. Do you want ${params.DONESTATE}"
+            }            
+        }
+        stage('FINNISH COOKING') {
+            steps {
+                echo 'Hello there, YOUR FOOD IS READY.'
+            }            
+        }
+    }
+}
