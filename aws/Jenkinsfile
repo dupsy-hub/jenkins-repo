@@ -4,23 +4,32 @@ pipeline {
     stages {
         stage('Clone Github Repo') {
             steps {
-                git branch: 'main', credentialsId: 'jenkins-github-creds', url: 'https://github.com/dupsy-hub/learning-jenkins-repo.git'
+                script {
+                    git branch: 'main', credentialsId: 'jenkins-github-creds', url: 'https://github.com/dupsy-hub/learning-jenkins-repo.git'
+                }
+                
             }
         }
         stage('Create S3 Bucket') {
             steps {
-                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                aws s3 mb s3://dupsy-jenkins-bucket
-                sleep 60
-    }
+                script {
+                    withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    aws s3 mb s3://dupsy-jenkins-bucket
+                    sleep 60
+                    }
+                
+                }
                 
             }
         }
         stage('Delete S3 Bucket') {
             steps {
-                withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                aws s3 rb s3://dupsy-jenkins-bucket
-    }
+                script{
+                    withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    aws s3 rb s3://dupsy-jenkins-bucket
+                    }
+                
+                }
                 
             }
         }
