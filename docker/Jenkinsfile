@@ -37,6 +37,7 @@ pipeline {
                 script{
                     withCredentials([usernamePassword(credentialsId: 'jenkins_dockerhub_creds', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
                         sh """
+                        docker login --username="$USERNAME" --password="$PASSWORD"
                         docker tag neogym-html dupsy/neogym-html-repo:v001
                         docker push dupsy/neogym-html-repo:v001
                         """
