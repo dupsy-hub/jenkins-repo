@@ -37,7 +37,7 @@ pipeline {
                 script{
                     // withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh """
-                    docker tag neogym-html neogym-html-repo:v001
+                    docker tag neogym-html dupsy/neogym-html-repo:v001
                     docker push dupsy/neogym-html-repo:v001
                     """
                 }
