@@ -35,11 +35,13 @@ pipeline {
         stage('Push To Dockerhub Registory') {
             steps {
                 script{
-                    // withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    sh """
-                    docker tag neogym-html dupsy/neogym-html-repo:v001
-                    docker push dupsy/neogym-html-repo:v001
-                    """
+                    withCredentials([usernamePassword(credentialsId: 'jenkins_dockerhub_creds', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                        sh """
+                        docker tag neogym-html dupsy/neogym-html-repo:v001
+                        docker push dupsy/neogym-html-repo:v001
+                        """
+                    }
+                    
                 }
                 
             }
