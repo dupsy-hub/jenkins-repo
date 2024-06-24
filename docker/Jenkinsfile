@@ -1,0 +1,39 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Clone Github Repo') {
+            steps {
+                script {
+                    git branch: "${BRANCH}", credentialsId: 'jenkins-github-creds', url: "${REPO_URL}"
+                }
+                
+            }
+        }
+        stage('Building Docker Image') {
+            steps {
+                script {
+                    // withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    sh """
+                    cd ${WORKSPACE}/docker
+                    docker build -t neogym-html .
+                    """
+                }
+                
+            }
+                
+        }
+        stage('Push To Dockerhub Registory') {
+            steps {
+                script{
+                    // withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-aws-creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    sh """
+                    docker push dupsy/neogym-html-repo:v001
+                    """
+                }
+                
+            }
+        }       
+    }
+}
+    
