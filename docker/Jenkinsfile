@@ -46,6 +46,30 @@ pipeline {
                 }
                 
             }
+        }
+        stage('Deploy On Remote Server') {
+            steps{
+                script {
+                    sshPublisher(
+                        continueOnError: false, failOnError: true,
+                        publishers: [
+                                sshPublisherDesc(
+                                    configName: "test-server",
+                                    verbose: true,
+                                    transfers: [
+                                        sshTransfer(
+                                            sourceFiles: "",
+                                            removePrefix: "",
+                                            remoteDirectory: "",
+                                            execCommand: "docker run -itd --name neogym-app -p 80:80 dupsy/neogym-html-repo:v001"
+                                        )
+                                    ]
+                                )
+                        ]
+                    )
+                }
+            }
+            
         }       
     }
 }
