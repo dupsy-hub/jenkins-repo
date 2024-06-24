@@ -62,7 +62,7 @@ pipeline {
                                             removePrefix: "",
                                             remoteDirectory: "",
                                             execCommand: """
-                                                docker stop || true
+                                                docker stop neogym-app || true
                                                 docker rm neogym-app || true
                                                 docker rmi -f dupsy/neogym-html-repo:v001 || true
                                                 docker run -itd --name neogym-app -p 80:80 dupsy/neogym-html-repo:v001
